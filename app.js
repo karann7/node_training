@@ -19,14 +19,18 @@ const argv = yargs
 // Encoding the input for URL
 var encoded = encodeURIComponent(argv.address);
 //the property json:true parses the data for readiblity. set json:false for complete tree.
+//****// Request() has two params, {}, (err, res, body)=>
+
 request({
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}`, 
     json: true
 }, (err, res, body)=> {
     if(err){
-        console.log(err);
-    } else {
+        console.log('Unable to connect to Google Servers.');
+    } else if (body.status === "OK")  {
   console.log(`Address: ${body.results[0].formatted_address} lat: ${body.results[0].geometry.location.lat} lng: ${body.results[0].geometry.location.lng}`
              );
+    } else {
+        console.log(body.status);
     }
 });
