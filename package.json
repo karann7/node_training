@@ -1,0 +1,23 @@
+{
+  "name": "node-dev-course",
+  "version": "1.0.0",
+  "description": "following along the dev course from udemy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karann7/node_training.git"
+  },
+  "author": "Karan Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karann7/node_training/issues"
+  },
+  "homepage": "https://github.com/karann7/node_training#readme",
+  "dependencies": {
+    "request": "^2.81.0",
+    "yargs": "^7.1.0"
+  }
+}
