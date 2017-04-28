@@ -1,36 +1,19 @@
-//I have to use strict to be able to use ES6
 "use strict";
-// npm require is used to make a request to google maps apis
-const request = require("request"),
-      yargs   = require("yargs");
-// yargs is taking the arguments from the Command Line and parsing through them
-const argv = yargs
-    .options({
-    a: {
-        demand: true,
-        alias: 'address',
-        describe: 'Address to fetch weather for',
-        string: true
-        }
-    })
-    .help()
-    .alias('help', 'h')
-    .argv;
-// Encoding the input for URL
-var encoded = encodeURIComponent(argv.address);
-//the property json:true parses the data for readiblity. set json:false for complete tree.
-//****// Request() has two params, {}, (err, res, body)=>
 
+const request = require('request'),
+ 	  yargs   = require('yargs');
+
+// Makes a request to the google api and returns specific parts.
 request({
-    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}`, 
-    json: true
-}, (err, res, body)=> {
-    if(err){
-        console.log('Unable to connect to Google Servers.');
-    } else if (body.status === "OK")  {
-  console.log(`Address: ${body.results[0].formatted_address} lat: ${body.results[0].geometry.location.lat} lng: ${body.results[0].geometry.location.lng}`
-             );
-    } else {
-        console.log(body.status);
-    }
+  url:'https://maps.googleapis.com/maps/api/geocode/json?address=4300%20custis%20ave',
+  json: true
+}, (err, res, body) => {
+  if(!err && res.statusCode === 200 ) {
+  	console.log(`Address: ${body.results[0].formatted_address}`);
+  	console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
+  	console.log(`Longitude: ${body.results[0].geometry.location.lng}` );
+  } else {
+  	console.log(res.statusCode);
+  } 
 });
+

@@ -1,7 +1,7 @@
 {
-  "name": "node-dev-course",
+  "name": "weather-app",
   "version": "1.0.0",
-  "description": "following along the dev course from udemy",
+  "description": "a simple weather app",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
