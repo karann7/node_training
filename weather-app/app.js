@@ -1,19 +1,29 @@
 "use strict";
-
-const request = require('request'),
+// ========Dependencies========
+const geocode = require('./modules/geocode'),
  	  yargs   = require('yargs');
 
-// Makes a request to the google api and returns specific parts.
-request({
-  url:'https://maps.googleapis.com/maps/api/geocode/json?address=4300%20custis%20ave',
-  json: true
-}, (err, res, body) => {
-  if(!err && res.statusCode === 200 ) {
-  	console.log(`Address: ${body.results[0].formatted_address}`);
-  	console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-  	console.log(`Longitude: ${body.results[0].geometry.location.lng}` );
-  } else {
-  	console.log(res.statusCode);
-  } 
-});
+// ========Dependencies========
 
+//takes arguments from the command line and put them into a property of the argv const.
+const argv = yargs
+	.options({
+		a: {
+			demand: true,
+			alias: 'address',
+			describe: 'Adress to fetch weather for',
+			string: true
+		}
+	})
+	.help()
+	.alias('help', 'h')
+	.argv;
+
+// encodes plain addresses and then uses googlemaps geocode api to return value
+geocode(argv.a, (err, results) => {
+	if(err) {
+		console.log(err);
+	} else {
+		console.log(JSON.stringify(results, undefined, 2))
+	}
+});
