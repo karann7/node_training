@@ -1,18 +1,43 @@
+"use strict";
 //// ========Dependencies========
 const express = require('express'),
 			app     = express(),
 			hbs     = require('hbs'),
-			port 		= process.env.port || 3000;
+			port 		= process.env.port || 3000,
+			fs      = require('fs');
+
+//Setting the view engine to hbs and registering partials for all the pages
 hbs.registerPartials(__dirname + '/views/partials');
-//Serving a static asset directory and setting the view engine of the app to hbs
-app.use(express.static(__dirname + '/public/'));
 app.set('view engine', 'hbs');
 
+//custom middleware that logs the incoming requests to a file for review
+app.use((req, res, next)=>{
+  let now = new Date().toString();
+  let log = `${now} ${req.url} ${req.method}`;
+  fs.appendFile('server.log', log + "\n", (err)=>{
+  	if(err){
+  		console.log(err);
+  	}
+  });
+  next();
+});
+// Activate ONLY for Maintenance!!!
+// app.use((req, res, next)=>{
+// 	res.render('maintenance');
+// });
+app.use(express.static(__dirname + '/public/'));
+
+//hbs helpers are functions that can be dynamically intergrated into the page
+hbs.registerHelper('getCurrentYear', ()=>{
+	return new Date().getFullYear();
+});
+hbs.registerHelper('screamIt', (text)=>{
+	return text.toUpperCase();
+});
 // Index
 app.get('/', (req, res) => {
 	res.render('index', {
 		pageTitle: 'Home Page',
-	  currentYear: new Date().getFullYear(),
 	  welcomeMessage: "Hello and welcome to this horrible looking website. Thank you."
 	});
 });
@@ -20,8 +45,7 @@ app.get('/', (req, res) => {
 // About 
 app.get('/about', (req, res) => {
 	res.render('about', {
-		pageTitle: 'About Page',
-	  currentYear: new Date().getFullYear()
+		pageTitle: 'About Page'
 	});
 });
 
