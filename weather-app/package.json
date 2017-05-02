@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/karann7/node_training#readme",
   "dependencies": {
+    "axios": "^0.16.1",
     "request": "^2.81.0",
     "yargs": "^7.1.0"
   }
