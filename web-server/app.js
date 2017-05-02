@@ -3,6 +3,7 @@
 //// ========Dependencies========
 const express = require('express'),
 			app     = express();
+app.use(express.static(__dirname + '/public/'))
 // Index
 app.get('/', (req, res) => {
 	res.send('Hello World!');
