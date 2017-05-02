@@ -2,33 +2,33 @@
 
 //// ========Dependencies========
 const express = require('express'),
-			app     = express();
-app.use(express.static(__dirname + '/public/'))
+			app     = express(),
+			hbs     = require('hbs'),
+			port 		= process.env.port || 3000;
+
+//Serving a static asset directory and setting the view engine of the app to hbs
+app.use(express.static(__dirname + '/public/'));
+app.set('view engine', 'hbs');
+
 // Index
 app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
-// About 
-app.get('/about', (req, res) => {
-	res.send('About page');
-});
-//Error
-app.get('/error', (req, res) =>{
-	res.send({
-		"cars": [ 
-			"Audi",
-			"B.M.W",
-			"Tesla",
-			"Jeep"
-		],
-		"errorMessage": "Status: OK"
+	res.render('index', {
+		pageTitle: 'Home Page',
+	  currentYear: new Date().getFullYear(),
+	  welcomeMessage: "Hello and welcome to this horrible looking website. Thank you."
 	});
 });
 
+// About 
+app.get('/about', (req, res) => {
+	res.render('about', {
+		pageTitle: 'About Page',
+	  currentYear: new Date().getFullYear()
+	});
+});
 
-
-
-
-app.listen(3000, ()=>{
-	console.log('Server is Running!');
+// reason for using a port variable is so that I can run this project on other services
+// such as cloud9 without having to change it everytime.
+app.listen(port, ()=>{
+	console.log(`Server is running on port: ${port}`);
 });
