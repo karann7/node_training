@@ -1,4 +1,3 @@
-"use strict";
 // ========Dependencies========
 const yargs   = require('yargs'),
 	  geocode = require('./modules/geocode'),

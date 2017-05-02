@@ -1,8 +1,6 @@
 //////////////////
 // Here Instead of using modules, we are using a library called axios which has
 // support for promises and allows of HTTP requests.
-
-"use strict";
 // ========Dependencies========
 const yargs   = require('yargs'),
 	  axios   = require('axios');
@@ -29,7 +27,7 @@ var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${en
 
 axios.get(geocodeUrl).then((res)=>{
 	if(res.data.status === 'ZERO_RESULTS'){
-		throw new Error('Unable to find that address')
+		throw new Error('Unable to find that address');
 	} else {
 		console.log(JSON.stringify(res.data.results[0].formatted_address));
 		var lat = res.data.results[0].geometry.location.lat;
@@ -43,8 +41,8 @@ axios.get(geocodeUrl).then((res)=>{
 	console.log(`Currently the temperature is: ${temperature}. It feels like ${feelslike}`);
 }).catch((e)=>{
   if(e.code === 'ENOTFOUND'){
-	console.log('Unable to connect to Google servers')
+	console.log('Unable to connect to Google servers');
   } else {
-	console.log(e.message)
+	console.log(e.message);
 	}
 });
