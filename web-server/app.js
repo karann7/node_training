@@ -1,11 +1,9 @@
-"use strict";
-
 //// ========Dependencies========
 const express = require('express'),
 			app     = express(),
 			hbs     = require('hbs'),
 			port 		= process.env.port || 3000;
-
+hbs.registerPartials(__dirname + '/views/partials');
 //Serving a static asset directory and setting the view engine of the app to hbs
 app.use(express.static(__dirname + '/public/'));
 app.set('view engine', 'hbs');
