@@ -1,0 +1,14 @@
+{
+  "name": "node-tests",
+  "version": "1.0.0",
+  "description": "Creating tests",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha **/*.test.js"
+  },
+  "author": "Karan Singh",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.3.0"
+  }
+}
