@@ -3,7 +3,7 @@
 const express = require('express'),
 			app     = express(),
 			hbs     = require('hbs'),
-			port 		= process.env.port || 3000,
+			port 		= process.env.PORT || 3000,
 			fs      = require('fs');
 
 //Setting the view engine to hbs and registering partials for all the pages
@@ -49,8 +49,7 @@ app.get('/about', (req, res) => {
 	});
 });
 
-// reason for using a port variable is so that I can run this project on other services
-// such as cloud9 without having to change it everytime.
+// reason for using a port variable is so that I can run this project on services that will dynamically set the port.
 app.listen(port, ()=>{
 	console.log(`Server is running on port: ${port}`);
 });
