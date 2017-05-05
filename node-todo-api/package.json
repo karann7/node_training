@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/karann7/node_training#readme",
   "dependencies": {
-    "mongodb": "^2.2.26"
+    "mongodb": "^2.2.26",
+    "mongoose": "^4.9.7"
   }
 }
