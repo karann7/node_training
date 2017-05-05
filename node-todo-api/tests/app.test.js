@@ -3,13 +3,13 @@ const expect 		= require('expect'),
 			app   		= require('../app'),
 			Todo  		= require('../db/models/todo'),
 			User 			= require('../db/models/user');
-
-beforeEach((done)=>{
-	Todo.remove({}).then(()=> done());
-});
-beforeEach((donee)=>{
-	User.remove({}).then(()=> donee());
-});
+//commented out so that the DB doesn't get wiped on running the test
+// beforeEach((done)=>{
+// 	Todo.remove({}).then(()=> done());
+// });
+// beforeEach((donee)=>{
+// 	User.remove({}).then(()=> donee());
+// });
 describe('POST /todos', ()=>{
 	it('should create a new todo', (done)=>{
 		var text = "my name is karan";
@@ -49,7 +49,7 @@ describe('POST /todos', ()=>{
 			});
 	});
 });
-
+// testing the POST user route
 describe('POST /users', ()=>{
 	it('should create a new user', (donee)=>{
 		var email = "kar.n@icloud.com";
