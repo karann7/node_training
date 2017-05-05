@@ -12,7 +12,7 @@ app.get('/', (req, res)=>{
 	res.send('Hello world!');
 });
 ////***ROUTES***////
-	//Todo-route
+	//Todo-POST-route
 app.post('/todos', (req, res)=>{
 	var todo = new Todo({
 		text: req.body.text
@@ -24,7 +24,17 @@ app.post('/todos', (req, res)=>{
 		res.status(400).send(e);
  });
 });
-	//User-route
+
+	//Todo-GET-route
+app.get('/todos', (req, res)=>{
+	Todo.find().then((todos)=>{
+		res.send({todos});
+	}, (e)=>{
+		res.status(400);
+	});
+});
+
+	//User-POST-route
 app.post('/users', (req, res)=>{
 	var user = new User({
 		email: req.body.email
