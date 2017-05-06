@@ -1,18 +1,59 @@
+"use strict";
+/////***DEPENDENCIES***/////
+//local
 const mongoose 		= require('./db/mongoose'),
 			User     		= require('./db/models/user'),
 			Todo     		= require('./db/models/todo'),
-			express  		= require('express'),
-			bodyParser  = require('body-parser'),
-			app         = express(),
 			port				= process.env.PORT || 3000;
 
+//npm
+const express  		= require('express'),
+			bodyParser  = require('body-parser'),
+			app         = express(),
+			{ObjectID}	= require('mongodb');
+			
 
+/////***MIDDLEWARE***/////
 app.use(bodyParser.json());
+
+///////////***ROUTES***///////////
+
+/////GET ROUTES/////
+//Homepage
 app.get('/', (req, res)=>{
-	res.send('Hello world!');
+	res.send('Welcome to the Todo API!');
 });
-////***ROUTES***////
-	//Todo-POST-route
+
+//Todo-GET-ALL-
+app.get('/todos', (req, res)=>{
+	Todo.find().then((todos)=>{
+		res.send({todos});
+	}, (e)=>{
+		res.status(400).send(e);
+	});
+});
+
+//Todo-GET-BY-ID
+app.get('/todos/:id', (req, res)=>{
+	let id = req.params.id;
+	if(!ObjectID.isValid(id)) {
+		return res.status(404).send("ID is not valid!");
+	}
+	Todo.findById(id).then((todo)=>{
+		if(!todo){
+			res.status(400).send('That Todo does not exist');
+		} else {
+			res.status(200).send({todo});
+		}
+
+		}).catch((e)=>{
+			res.status(400).send('An error has occured.');
+		});
+});
+
+/////POST ROUTES/////
+
+//Todo-POST-route
 app.post('/todos', (req, res)=>{
 	var todo = new Todo({
 		text: req.body.text
@@ -25,16 +66,7 @@ app.post('/todos', (req, res)=>{
  });
 });
 
-	//Todo-GET-route
-app.get('/todos', (req, res)=>{
-	Todo.find().then((todos)=>{
-		res.send({todos});
-	}, (e)=>{
-		res.status(400).send(e);
-	});
-});
-
-	//User-POST-route
+//User-POST-route
 app.post('/users', (req, res)=>{
 	var user = new User({
 		email: req.body.email
@@ -47,8 +79,9 @@ app.post('/users', (req, res)=>{
  });
 });
 
+////Server Listening////
 app.listen(port, ()=>{
-	console.log(`server is running on ${port}`);
+	console.log(`Server is running on Port: ${port}`);
 });
 
 module.exports = app;
