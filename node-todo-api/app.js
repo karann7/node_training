@@ -41,11 +41,10 @@ app.get('/todos/:id', (req, res)=>{
 	}
 	Todo.findById(id).then((todo)=>{
 		if(!todo){
-			res.status(400).send('That Todo does not exist');
+			res.status(404).send('That Todo does not exist');
 		} else {
 			res.status(200).send({todo});
-		}
-
+		  }
 		}).catch((e)=>{
 			res.status(400).send('An error has occured.');
 		});
