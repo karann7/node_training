@@ -14,7 +14,7 @@
     "url": "git+ssh://git@github.com/karann7/node_training.git"
   },
   "engines": {
-    "node": "7.10.0"
+    "node": "6.10.3"
   },
   "author": "Karan Singh",
   "license": "ISC",
