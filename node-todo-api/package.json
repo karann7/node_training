@@ -4,6 +4,7 @@
   "description": "another todo app",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "mocha ./tests/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
 
@@ -11,6 +12,9 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/karann7/node_training.git"
+  },
+  "engines": {
+    "node": "7.10.0"
   },
   "author": "Karan Singh",
   "license": "ISC",
