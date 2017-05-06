@@ -4,7 +4,8 @@
 const mongoose 		= require('./db/mongoose'),
 			User     		= require('./db/models/user'),
 			Todo     		= require('./db/models/todo'),
-			port				= process.env.PORT || 3000;
+			port				= process.env.PORT || 3000,
+			ip 					= process.env.IP || '0.0.0.0';
 
 //npm
 const express  		= require('express'),
@@ -79,7 +80,7 @@ app.post('/users', (req, res)=>{
 });
 
 ////Server Listening////
-app.listen(port, ()=>{
+app.listen(port, ip, ()=>{
 	console.log(`Server is running on Port: ${port}`);
 });
 
