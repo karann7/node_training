@@ -1,17 +1,19 @@
 "use strict";
 /////***DEPENDENCIES***/////
+
 //local
+require('./config/config');
 const mongoose 		= require('./db/mongoose'),
 			User     		= require('./db/models/user'),
 			Todo     		= require('./db/models/todo'),
-			port				= process.env.PORT || 3000,
-			ip 					= process.env.IP || '0.0.0.0';
+			port				= process.env.PORT;
 
 //npm
 const express  		= require('express'),
 			bodyParser  = require('body-parser'),
 			app         = express(),
-			{ObjectID}	= require('mongodb');
+			{ObjectID}	= require('mongodb'),
+			_						= require('lodash');
 			
 
 /////***MIDDLEWARE***/////
@@ -79,8 +81,54 @@ app.post('/users', (req, res)=>{
  });
 });
 
+/////PUT ROUTES/////
+
+app.patch('/todos/:id', (req, res)=>{
+	let id = req.params.id;
+	let body = _.pick(req.body, ['text', 'completed']);
+
+	if(!ObjectID.isValid(id)) {
+		return res.status(404).send("ID is not valid!");
+	}
+
+	if(_.isBoolean(body.completed) && body.completed){
+		body.completedAt = new Date().getTime(); 
+	} else {
+		body.completed   = false;
+		body.completedAt = null;
+	}
+	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo)=>{
+		if(!todo){
+			res.status(404).send('That Todo does not exist');
+		} else {
+			res.status(200).send({todo});
+		  }
+		}).catch((e)=>{
+			res.status(400).send('An error has occured.');
+		});
+});
+
+/////DELETE ROUTES/////
+
+//Find a todo and delete by ID
+app.delete('/todos/:id', (req, res)=>{
+	let id = req.params.id;
+	if(!ObjectID.isValid(id)) {
+		return res.status(404).send("ID is not valid!");
+	}
+	Todo.findByIdAndRemove(id).then((todo)=>{
+		if(!todo){
+			res.status(404).send('That Todo does not exist');
+		} else {
+			res.status(200).send({todo});
+		  }
+		}).catch((e)=>{
+			res.status(400).send('An error has occured.');
+		});
+});
+
 ////Server Listening////
-app.listen(port, ip, ()=>{
+app.listen(port, ()=>{
 	console.log(`Server is running on Port: ${port}`);
 });
 
