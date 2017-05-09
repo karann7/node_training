@@ -1,10 +1,12 @@
 const mongoose  = require('mongoose'),
-			validator = require('validator');
+			validator = require('validator'),
+			jwt				= require('jsonwebtoken'),
+			_  				= require('lodash');
 
 //User Model
 // we are using npm validator to make sure email is valid
 //the tokens property refers to login from different devices 
-var User = mongoose.model('User', {
+var UserSchema = new mongoose.Schema({
 	email: {
 		type: String,
 		required: true,
@@ -33,6 +35,26 @@ var User = mongoose.model('User', {
 		}
 	}]
 });
+
+UserSchema.methods.toJSON = function () {
+	var user = this;
+	var userObject = user.toObject();
+	return _.pick(userObject, ['_id', 'email']);
+};
+
+UserSchema.methods.generateAuthToken = function(){
+	var user = this;
+  var access = "auth";
+  var token = jwt.sign({_id: user._id.toHexString(), access}, "abc123").toString();
+
+  user.tokens.push({access, token});
+
+  return user.save().then(()=>{
+  	return token;
+  });
+};
+
+var User = mongoose.model('User', UserSchema);
 
 // how to make a new User
 // var user = new User({
